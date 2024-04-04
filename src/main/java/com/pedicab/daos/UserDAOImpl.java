@@ -15,10 +15,10 @@ public class UserDAOImpl implements UserDAO {
 
 	//CRUD - Retrieve
 	@Override
-	public User get(int userId) {
+	public User get(int userId) throws SQLException {
 		// TODO Auto-generated method stub
 		
-		try (Connection conn = DatabaseConnector.getConnection()){
+		Connection conn = DatabaseConnector.getConnection();
 		User user = null; 
 		
 		String sql = "SELECT user_id, user_email, user_password, user_name "
@@ -45,11 +45,8 @@ public class UserDAOImpl implements UserDAO {
 		DatabaseConnector.closeConnection(conn);
 		
 		return user;
-	} catch (SQLException e) {
-		e.printStackTrace();
 	}
-		return null;
-	} 
+		 
 
 	@Override
 	public List<User> getAll() throws SQLException {

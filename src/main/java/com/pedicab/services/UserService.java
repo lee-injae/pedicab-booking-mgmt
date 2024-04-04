@@ -1,5 +1,6 @@
 package com.pedicab.services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.pedicab.daos.UserDAO;
@@ -8,24 +9,19 @@ import com.pedicab.models.User;
 
 public class UserService {
 
-	private UserDAO userDAO = new UserDAOImpl();
-	
-	public List<User> getAllUsers(){
-		try {
-			return userDAO.getAll();
-		} catch (Exception e) {
-			throw new RuntimeException("failed to get all the users", e);
-		}
-	}
-	
-	public int addUser(String email, String password, String name) {
-		try {
-			User user = new User(email, password, name);
-			return userDAO.insert(user);
-		} catch (Exception e) {
-			throw new RuntimeException("failed to add user", e);
-		}
-	}
-	
-	
+    private UserDAO userDAO = new UserDAOImpl();
+    
+    // Propagates any SQLExceptions or other exceptions
+    public List<User> getAllUsers() throws Exception {
+        return userDAO.getAll();
+    }
+    
+    public User getUserById(int userId) throws SQLException {
+        return userDAO.get(userId);
+    }
+    
+    public int addUser(String email, String password, String name) throws Exception {
+        User user = new User(email, password, name);
+        return userDAO.insert(user);
+    }
 }
